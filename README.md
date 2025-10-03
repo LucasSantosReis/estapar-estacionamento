@@ -205,7 +205,7 @@ docker exec parking-app mvn test
 
 ### **Resultado Esperado:**
 ```
-Tests run: 19, Failures: 0, Errors: 0, Skipped: 0
+Tests run: 36, Failures: 0, Errors: 0, Skipped: 0
 BUILD SUCCESS
 ```
 
