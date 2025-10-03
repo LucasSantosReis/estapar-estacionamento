@@ -17,8 +17,8 @@ docker run -d --network="host" cfontes0estapar/garage-sim:1.0.0
 ### **Passo 2: Subir a Aplicação**
 ```bash
 # Clone o repositório e execute
-git clone <repository-url>
-cd estapar-parking-system
+git clone https://github.com/LucasSantosReis/estapar-estacionamento.git
+cd estapar-estacionamento
 docker-compose up -d
 ```
 
