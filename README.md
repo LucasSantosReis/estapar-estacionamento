@@ -235,7 +235,7 @@ BUILD SUCCESS
 ### **✅ Sistema Completo e Funcional:**
 - **Backend Java** com todas as regras de negócio implementadas
 - **Frontend React** com dashboard moderno
-- **Testes automatizados** passando (19 testes)
+- **Testes automatizados** passando (36 testes)
 - **Docker** para ambiente consistente
 - **Documentação** completa da API
 
