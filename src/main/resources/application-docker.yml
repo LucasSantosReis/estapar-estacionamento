@@ -1,0 +1,74 @@
+spring:
+  application:
+    name: parking-management
+  
+  datasource:
+    url: jdbc:mysql://mysql:3306/parking_management?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=America/Sao_Paulo
+    username: parking_user
+    password: parking_password
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQLDialect
+        format_sql: true
+  
+  jackson:
+    time-zone: America/Sao_Paulo
+    date-format: yyyy-MM-dd'T'HH:mm:ss.SSSXXX
+
+server:
+  port: 3003
+
+logging:
+  level:
+    com.estapar: DEBUG
+    org.springframework.web: DEBUG
+
+# Garage simulator configuration
+garage:
+  simulator:
+    base-url: http://garage-simulator:8080
+    garage-endpoint: /garage
+
+# Swagger/OpenAPI configuration
+springdoc:
+  api-docs:
+    path: /api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+    enabled: true
+  show-actuator: true
+
+# Actuator configuration for observability
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics,prometheus,env,beans,configprops
+      base-path: /actuator
+  endpoint:
+    health:
+      show-details: always
+      show-components: always
+    metrics:
+      enabled: true
+    prometheus:
+      enabled: true
+  metrics:
+    export:
+      prometheus:
+        enabled: true
+    distribution:
+      percentiles-histogram:
+        http.server.requests: true
+        parking.webhook.processing.time: true
+        parking.revenue.calculation.time: true
+      percentiles:
+        http.server.requests: 0.5, 0.95, 0.99
+        parking.webhook.processing.time: 0.5, 0.95, 0.99
+        parking.revenue.calculation.time: 0.5, 0.95, 0.99

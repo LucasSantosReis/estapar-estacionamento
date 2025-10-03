@@ -1,0 +1,57 @@
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: parking-mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: parking_management
+      MYSQL_USER: parking_user
+      MYSQL_PASSWORD: parking_password
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    command: --default-authentication-plugin=mysql_native_password
+    networks:
+      - parking-network
+
+  parking-app:
+    build: .
+    container_name: parking-app
+    depends_on:
+      - mysql
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/parking_management?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=America/Sao_Paulo
+      SPRING_DATASOURCE_USERNAME: parking_user
+      SPRING_DATASOURCE_PASSWORD: parking_password
+    ports:
+      - "3003:3003"
+    networks:
+      - parking-network
+
+  parking-frontend:
+    build: ./frontend
+    container_name: parking-frontend
+    depends_on:
+      - parking-app
+      - mysql
+    ports:
+      - "3001:80"
+    networks:
+      - parking-network
+    environment:
+      - VITE_API_BASE_URL=http://localhost:3003/api
+
+  garage-simulator:
+    image: cfontes0estapar/garage-sim:1.0.0
+    container_name: garage-simulator
+    network_mode: host
+
+volumes:
+  mysql_data:
+
+networks:
+  parking-network:
+    driver: bridge
